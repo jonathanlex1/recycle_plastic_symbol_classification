@@ -77,18 +77,28 @@ The model was trained with the following parameters: 100 epochs, a batch size of
 ## Deployment
 The model was deployed as an web application using Flask, allowing users to upload recycling symbol images for classification.
 
+## How to Use the App
 1. Clone Repository
 ```bash 
 git clone https://github.com/jonathanlex1/recycle_plastic_symbol_classification.git
 cd web_app
 ```
 
-2. Install dependencies 
+2. Create conda or python environment and activate it  : 
+```bash
+conda create --name <environment_name>
+```
+
+```bash
+conda activate <environment_name>
+```
+
+3. Install dependencies 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the applications : 
+4. Run the applications : 
 ```bash
-python app.py
+flask --app app.py run
 ```
