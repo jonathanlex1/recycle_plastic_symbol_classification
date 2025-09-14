@@ -17,7 +17,7 @@ def predict() :
 
     if 'imagefile' in request.files :
     #input image 
-        img_file = request.files['imagefile'] #imagefile sesuaikan dengan name pada input html
+        img_file = request.files['imagefile'] #mendapatkan url file uploaded
 
         if img_file.filename != '' :
            
@@ -33,8 +33,5 @@ def predict() :
     return render_template('index.html', predict=yhat)
 
 
-
 if __name__ == '__main__' : 
     app.run(port=3000, debug=True)
-    
-
