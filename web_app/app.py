@@ -15,22 +15,29 @@ def home() :
 @app.route('/', methods=['POST']) 
 def predict() :
 
-    if 'imagefile' in request.files :
-    #input image 
-        img_file = request.files['imagefile'] #mendapatkan url file uploaded
+    if 'imagefile' not in request.files:
+        return render_template('index.html', predict=None)
 
-        if img_file.filename != '' :
-           
-            #predict image
-            image_bytes = img_file.read()
-            input_tensor = transform_image(image_bytes)
-            yhat = prediction(input_tensor)
-            
-            #saving the image
-            img_path = os.path.join(UPLOAD_FOLDER ,img_file.filename)
-            img_file.save(img_path)
+    img_file = request.files['imagefile']
 
-    return render_template('index.html', predict=yhat)
+    if img_file.filename == '':
+        return render_template('index.html', predict=None)
+
+    # simpan file dulu
+    img_path = os.path.join(UPLOAD_FOLDER, img_file.filename)
+    img_file.save(img_path)
+
+    # buka ulang untuk prediksi
+    with open(img_path, "rb") as f:
+        image_bytes = f.read()
+
+    input_tensor = transform_image(image_bytes)
+    yhat = prediction(input_tensor)
+
+    # kirim path relatif ke template
+    return render_template('index.html',
+                           predict=str(yhat), 
+                           image_url=f"/{img_path}")
 
 
 if __name__ == '__main__' : 
